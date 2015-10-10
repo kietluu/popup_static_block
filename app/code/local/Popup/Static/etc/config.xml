@@ -38,6 +38,18 @@
             </popup_static_setup>
         </resources>
     </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <popup_static>
+                    <file>popup/frontend_popup_static.xml</file>
+                </popup_static>
+            </updates>
+        </layout>
+    </frontend>
+
+
     <admin>
         <routers>
             <adminhtml>

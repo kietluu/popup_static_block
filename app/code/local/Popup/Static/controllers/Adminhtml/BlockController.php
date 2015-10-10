@@ -60,7 +60,7 @@ class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_A
 
 		if (!$model->getId()) {
 			$model->setData(array(
-				'expire_cookie'=> '86400',
+				'expire_cookie' => '86400',
 				'time_hide' => '5',
 				'create_date' => Mage::getModel('core/date')->date(),
 			));
@@ -80,40 +80,44 @@ class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_A
 	{
 		if ($postData = $this->getRequest()->getPost()) {
 			$model = Mage::getSingleton('popup_static/block');
-
+//			Mage::dispatchEvent(
+//				'adminhtml_controller_catalogrule_prepare_save',
+//				array('request' => $this->getRequest())
+//			);
 //			$model_val = Mage::getModel('catalogrule/rule');
 //			$data = $this->_filterDates($postData, array('from_date', 'to_date'));
-//
 //			$validateResult = $model_val->validateData(new Varien_Object($data));
-//
-//
 //			if ($validateResult !== true) {
+//				foreach ($validateResult as $errorMessage) {
+//					//$this->_getSession()->addError($errorMessage);
+//					$this->getLayout()->getMessagesBlock()->addError($errorMessage);
+//
+//				}
 ////				var_dump($validateResult);die;
-//				Mage::getSingleton('admin/session')->addError($this->__('An error occurred'));
-////				foreach($validateResult as $errorMessage) {
-////					$this->_getSession()->addError($errorMessage);
-////				}
-////				$this->_getSession()->setPageData($data);
-////				$this->_redirect('*/*/edit', array('id'=>$model->getId()));
+//
+////				$this->_getSession()->setBlockData($data);
+////				$this->_redirect('*/*/');return;
+//
+//				$this->_getSession()->setBlockData($postData);
+//				$this->_redirect('*/*/edit');
 //				return;
 //			}
-
 			$model->setData($postData);
 
 			try {
+//				Mage::throwException("dadasd");
 				$model->save();
-				Mage::getSingleton('admin/session')->addError($this->__('An error occurred'));
 				Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The popup has been saved.'));
 				$this->_redirect('*/*/');
 
 				return;
 			} catch (Mage_Core_Exception $e) {
-				Mage::getSingleton('admin/session')->addError($e->getMessages());
+				Mage::getSingleton('adminhtml/session')->addError($e->getMessages());
 			} catch (Exception $e) {
-				Mage::getSingleton('admin/session')->addError($this->__('An error occurred'));
+				Mage::getSingleton('adminhtml/session')->addError($this->__('An error occurred'));
 			}
 
-			Mage::getSingleton('admin/session')->setBlockData($postData);
+			Mage::getSingleton('adminhtml/session')->setBlockData($postData);
 			$this->_redirectReferer();
 		}
 	}
@@ -121,16 +125,15 @@ class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_A
 	public function deleteAction()
 	{
 		try {
-			$id= $this->getRequest()->getParam('id');
-			if($id){
-				if($registry = Mage::getModel('popup_static/block')->load($id))
-				{
+			$id = $this->getRequest()->getParam('id');
+			if ($id) {
+				if ($registry = Mage::getModel('popup_static/block')->load($id)) {
 					$registry->delete();
-					$successMessage =  Mage::helper('popup_static')->__('Popup has been succesfully deleted.');
+					$successMessage = Mage::helper('popup_static')->__('Popup has been succesfully deleted.');
 					Mage::getSingleton('core/session')->addSuccess($successMessage);
 					$this->_redirect('*/*/');
 
-				}else{
+				} else {
 					throw new Exception("There was a problem deleting the popup");
 				}
 			}

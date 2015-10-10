@@ -1,0 +1,117 @@
+<!--get html of static block and echo in here-->
+<?php
+
+	$model = Mage::getModel('popup_static/block')->getCollection();
+
+	//get current time in magento server (not server), have timezone
+	$nowDate = Mage::getModel('core/date')->date('Y-m-d H:i:s');
+
+	//find in db that meet the requirement (date / time)
+	$popup_static_block = $model->addFieldToSelect(array('block_id', 'expire_cookie', 'time_hide'))
+		->addFieldToFilter('from_date', array('lteq' => $nowDate))
+		->addFieldToFilter('to_date', array('gteq' => $nowDate))
+		->getFirstItem()
+		->getData();
+
+
+	//var_dump($popup_static_block);
+	//get block_id in table popup_static_block
+	$block_id = $popup_static_block['block_id'];
+	$expire_cookie = $popup_static_block['expire_cookie'];
+	$time_hide = $popup_static_block['time_hide'];
+	$check_active = 0;
+
+	//var_dump($block_id);
+	//get identifier in table cms_block from block_id
+	$cms_block_model = Mage::getModel('cms/block')->getCollection();
+	$identifier = $cms_block_model->addFieldToSelect(array('identifier'))
+					->addFieldToFilter('block_id', $block_id)
+					->getFirstItem()
+					->getData();
+
+	if (!empty($identifier)) {
+		$check_active = 1;
+		echo $this->getLayout()->createBlock('cms/block')->setBlockId($identifier['identifier'])->toHtml();
+	}
+
+?>
+<style>
+	#aw_popup_window {
+		position: fixed;
+		overflow: hidden;
+		z-index: 1000;
+		background: #ffffff;
+		top: 0;
+		left: 0;
+		border: solid 1px;
+		border-radius: 6px;
+		padding: 10px;
+	}
+
+	#aw_popup_close_btn {
+		cursor: pointer;
+		float: right;
+	}
+
+	.highslide-dimming {
+		background: #fff;
+	}
+
+	.highslide-viewport-size {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+	}
+
+</style>
+<script type="text/javascript">
+	//<![CDATA[
+	var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+
+	jQuery(function () {
+
+		<?php $check_cookie = Mage::getModel('core/cookie')->get('bc_popup'); ?>
+
+		var check_active = "<?php echo $check_active; ?>";
+		var check_cookie = "<?php echo $check_cookie; ?>";
+		var time_hide = "<?php echo $time_hide; ?>";
+		console.log(time_hide);
+
+		if (check_active == '1') {
+			if (check_cookie != 1) {
+				jQuery(".highslide-dimming").fadeIn();
+				jQuery('#esns_background_layer').fadeIn();
+
+				setTimeout(function () {
+					jQuery(".highslide-dimming").fadeOut();
+					jQuery('#esns_background_layer').fadeOut();
+				}, time_hide * 1000);
+				<?php
+					if($check_active == 1)
+					{
+						$expire  = Mage::getStoreConfig('popup_section/popup_group/popup_field');
+						Mage::getModel('core/cookie')->set('bc_popup', 1, $expire_cookie*1);
+					}elseif($check_active == 0){
+						Mage::getModel('core/cookie')->delete('bc_popup');
+					}
+
+				?>
+			}
+		}
+
+		jQuery('#highslide-wrapper-0').css('left', (jQuery(document).width() / 2 - 248 ) + 'px');
+		jQuery('#aw_popup_close_btn').click(function () {
+			jQuery('#esns_background_layer').fadeOut();
+			jQuery(".highslide-dimming").fadeOut();
+		});
+		jQuery('#sign-up-widget').click(function () {
+			jQuery(".highslide-dimming").fadeIn();
+			jQuery('#esns_background_layer').fadeIn();
+		});
+	});
+
+	jQuery.noConflict();
+	//]]>
+</script>

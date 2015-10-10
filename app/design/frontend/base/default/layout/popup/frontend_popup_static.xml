@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <default>
+        <reference name="before_body_end">
+            <!--<block type="cms/block" name="popup" before="-">-->
+            <!--<action method="setBlockId">-->
+            <!--<block_id>popup</block_id>-->
+            <!--</action>-->
+            <!--</block>-->
+
+            <block type="core/template" name="popup_static_block" as="popup_static_block" template="popup_static/form.phtml"/>
+        </reference>
+
+    </default>
+</layout>
