@@ -17,6 +17,14 @@ class Popup_Static_Block_Adminhtml_Block_Edit_Form extends Mage_Adminhtml_Block_
 		$this->setTitle($this->__('Popup Information'));
 	}
 
+//	protected function _prepareLayout()
+//	{
+//		parent::_prepareLayout();
+//		if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+//			$this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+//		}
+//	}
+
 	protected function _prepareForm()
 	{
 		$model = Mage::registry('popup_static');

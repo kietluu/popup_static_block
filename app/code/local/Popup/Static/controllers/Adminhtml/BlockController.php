@@ -8,9 +8,16 @@
  */
 class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_Action
 {
+
 	public function indexAction()
 	{
-		$this->_initAction()->renderLayout();
+		// instantiate the grid container
+		$brandBlock = $this->getLayout()->createBlock('popup_static_adminhtml/block');
+
+		// Add the grid container as the only item on this page
+		$this->loadLayout()
+			->_addContent($brandBlock)
+			->renderLayout();
 	}
 
 	protected function _initAction()
@@ -35,7 +42,6 @@ class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_A
 
 	public function editAction()
 	{
-		$this->_initAction();
 
 		$id = $this->getRequest()->getParam('id');
 		$model = Mage::getModel('popup_static/block');
@@ -78,39 +84,35 @@ class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_A
 
 	public function saveAction()
 	{
+
 		if ($postData = $this->getRequest()->getPost()) {
 			$model = Mage::getSingleton('popup_static/block');
-//			Mage::dispatchEvent(
-//				'adminhtml_controller_catalogrule_prepare_save',
-//				array('request' => $this->getRequest())
-//			);
-//			$model_val = Mage::getModel('catalogrule/rule');
-//			$data = $this->_filterDates($postData, array('from_date', 'to_date'));
-//			$validateResult = $model_val->validateData(new Varien_Object($data));
-//			if ($validateResult !== true) {
-//				foreach ($validateResult as $errorMessage) {
-//					//$this->_getSession()->addError($errorMessage);
-//					$this->getLayout()->getMessagesBlock()->addError($errorMessage);
-//
-//				}
-////				var_dump($validateResult);die;
-//
-////				$this->_getSession()->setBlockData($data);
-////				$this->_redirect('*/*/');return;
-//
-//				$this->_getSession()->setBlockData($postData);
-//				$this->_redirect('*/*/edit');
-//				return;
-//			}
+
+			/**
+			 * validate from date vs to date
+			 */
+
+			$model_val = Mage::getModel('catalogrule/rule');
+			$data = $this->_filterDates($postData, array('from_date', 'to_date'));
+
+			$validateResult = $model_val->validateData(new Varien_Object($data));
+
+			if ($validateResult !== true) {
+				foreach ($validateResult as $errorMessage) {
+					$this->_getSession()->addError($errorMessage);
+				}
+
+				$this->_getSession()->setBlockData($postData);
+				$this->_redirect('*/*/edit');
+				return;
+			}
 			$model->setData($postData);
 
 			try {
-//				Mage::throwException("dadasd");
 				$model->save();
 				Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The popup has been saved.'));
-				$this->_redirect('*/*/');
 
-				return;
+				return $this->_redirect('*/*/');
 			} catch (Mage_Core_Exception $e) {
 				Mage::getSingleton('adminhtml/session')->addError($e->getMessages());
 			} catch (Exception $e) {
