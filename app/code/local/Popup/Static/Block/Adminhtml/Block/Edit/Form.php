@@ -67,8 +67,8 @@ class Popup_Static_Block_Adminhtml_Block_Edit_Form extends Mage_Adminhtml_Block_
 		));
 
 		$fieldset->addField('block_id', 'select', array(
-			'label' => Mage::helper('checkout')->__('Static Block ID'),
-			'title' => Mage::helper('checkout')->__('Static Block ID'),
+			'label' => Mage::helper('checkout')->__('Static Block'),
+			'title' => Mage::helper('checkout')->__('Static Block'),
 			'class' => 'required-entry',
 			'required' => true,
 			'name' => 'block_id',
@@ -77,7 +77,7 @@ class Popup_Static_Block_Adminhtml_Block_Edit_Form extends Mage_Adminhtml_Block_
 			'values' => $arr_block_id,
 			'disabled' => false,
 			'readonly' => false,
-			'after_element_html' => '<small>Static Block</small>',
+//			'after_element_html' => '<small>Static Block</small>',
 			'tabindex' => 1
 		));
 
