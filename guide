@@ -1,0 +1,6 @@
+#Guide use popup
+
+#Create html of popup in static block, include HTML, link image, CSS (style) in this static block
+#Create POPUP: CMS->Popup Management  => add new
+#Select Static Block in drop down with name popup was created in CMS->Static Block
+#Note: do not create two popup in the same time.
