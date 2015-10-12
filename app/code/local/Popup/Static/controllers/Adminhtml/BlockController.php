@@ -100,9 +100,7 @@ class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_A
 				$this->_redirect('*/*/edit');
 				return;
 			}
-//            echo '<pre>';
-//            var_dump($errorMessage);
-//            die;
+
 			$model->setData($postData);
 
 			try {

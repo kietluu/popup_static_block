@@ -17,14 +17,6 @@ class Popup_Static_Block_Adminhtml_Block_Edit_Form extends Mage_Adminhtml_Block_
 		$this->setTitle($this->__('Popup Information'));
 	}
 
-//	protected function _prepareLayout()
-//	{
-//		parent::_prepareLayout();
-//		if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
-//			$this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
-//		}
-//	}
-
 	protected function _prepareForm()
 	{
 		$model = Mage::registry('popup_static');
@@ -77,19 +69,15 @@ class Popup_Static_Block_Adminhtml_Block_Edit_Form extends Mage_Adminhtml_Block_
 			'values' => $arr_block_id,
 			'disabled' => false,
 			'readonly' => false,
-//			'after_element_html' => '<small>Static Block</small>',
 			'tabindex' => 1
 		));
 
-		$dateFormatIso = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 		$fieldset->addField('from_date', 'date', array(
 			'name' => 'from_date',
 			'label' => Mage::helper('checkout')->__('From Date'),
 			'title' => Mage::helper('checkout')->__('Start Date'),
 			'image' => $this->getSkinUrl('images/grid-cal.gif'),
-//			'input_format' => $dateFormatIso,
 			'input_format' => Varien_Date::DATETIME_INTERNAL_FORMAT,
-//			'format' => $dateFormatIso,
 			'format' =>  Varien_Date::DATETIME_INTERNAL_FORMAT,
 			'time' => true,
 			'required' => true,
@@ -103,7 +91,6 @@ class Popup_Static_Block_Adminhtml_Block_Edit_Form extends Mage_Adminhtml_Block_
 			'title' => Mage::helper('checkout')->__('End Date'),
 			'tabindex' => 1,
 			'image' => $this->getSkinUrl('images/grid-cal.gif'),
-//			'input_format' => $dateFormatIso,
 			'input_format' => Varien_Date::DATETIME_INTERNAL_FORMAT,
 			'format' =>  Varien_Date::DATETIME_INTERNAL_FORMAT,
 			'time' => true,

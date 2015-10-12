@@ -30,27 +30,6 @@ class Popup_Static_Block_Adminhtml_Block_Grid extends Mage_Adminhtml_Block_Widge
 			->join(array('a' => 'cms/block'), 'main_table.block_id = a.block_id', array('static_block_title' => 'a.title'));
 		$this->setCollection($collection);
 		return parent::_prepareCollection();
-
-//		$collection = Mage::getResourceModel('sales/order_collection')
-//			->join(array('a' => 'sales/order_address'), 'main_table.entity_id = a.parent_id AND a.address_type != \'billing\'', array(
-//				'city' => 'city',
-//				'country_id' => 'country_id'
-//			))
-//			->join(array('c' => 'customer/customer_group'), 'main_table.customer_group_id = c.customer_group_id', array(
-//				'customer_group_code' => 'customer_group_code'
-//			))
-//			->addExpressionFieldToSelect(
-//				'fullname',
-//				'CONCAT({{customer_firstname}}, \' \', {{customer_lastname}})',
-//				array('customer_firstname' => 'main_table.customer_firstname', 'customer_lastname' => 'main_table.customer_lastname'))
-//			->addExpressionFieldToSelect(
-//				'products',
-//				'(SELECT GROUP_CONCAT(\' \', x.name)
-//                    FROM sales_flat_order_item x
-//                    WHERE {{entity_id}} = x.order_id
-//                        AND x.product_type != \'configurable\')',
-//				array('entity_id' => 'main_table.entity_id')
-//			);
 	}
 
 	protected function _prepareColumns()

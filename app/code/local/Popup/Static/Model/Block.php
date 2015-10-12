@@ -13,15 +13,13 @@ class Popup_Static_Model_Block extends Mage_Core_Model_Abstract
 		$this->_init('popup_static/block');
 	}
 
-	//    check het trong nay roi gan vao array error
-
 
 	public function checkConditionDateTime($array)
 	{
-//        TH OK1: (from < to < fromdate)
-//        TH OK2: (todate <from < to)
+//        Case OK1: (from < to < fromdate)
+//        Case OK2: (todate <from < to)
 
-//        check from <to
+//        check from < to
 
 		if (empty($array['from_date']) || empty($array['to_date'])) {
 			return Mage::helper('popup_static')->__('From Date or To Date is not set.');
