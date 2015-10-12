@@ -89,9 +89,11 @@ class Popup_Static_Block_Adminhtml_Block_Edit_Form extends Mage_Adminhtml_Block_
 			'image' => $this->getSkinUrl('images/grid-cal.gif'),
 //			'input_format' => $dateFormatIso,
 			'input_format' => Varien_Date::DATETIME_INTERNAL_FORMAT,
-			'format' => $dateFormatIso,
+//			'format' => $dateFormatIso,
+			'format' =>  Varien_Date::DATETIME_INTERNAL_FORMAT,
 			'time' => true,
 			'required' => true,
+			'style'   => "width:146px !important",
 		));
 
 
@@ -103,9 +105,10 @@ class Popup_Static_Block_Adminhtml_Block_Edit_Form extends Mage_Adminhtml_Block_
 			'image' => $this->getSkinUrl('images/grid-cal.gif'),
 //			'input_format' => $dateFormatIso,
 			'input_format' => Varien_Date::DATETIME_INTERNAL_FORMAT,
-			'format' => $dateFormatIso,
+			'format' =>  Varien_Date::DATETIME_INTERNAL_FORMAT,
 			'time' => true,
 			'required' => true,
+			'style'   => "width:146px !important",
 		));
 
 		$fieldset->addField('expire_cookie', 'text', array(

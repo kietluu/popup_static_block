@@ -62,16 +62,13 @@ class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_A
 		$data = Mage::getSingleton('adminhtml/session')->getBlockData(true);
 		if (!empty($data)) {
 			$model->setData($data);
-		}
-
-		if (!$model->getId()) {
+		} elseif (!$model->getId()) {
 			$model->setData(array(
 				'expire_cookie' => '86400',
 				'time_hide' => '5',
 				'create_date' => Mage::getModel('core/date')->date(),
 			));
 		}
-
 
 		Mage::register('popup_static', $model);
 
@@ -85,27 +82,27 @@ class Popup_Static_Adminhtml_BlockController extends Mage_Adminhtml_Controller_A
 	public function saveAction()
 	{
 
+
 		if ($postData = $this->getRequest()->getPost()) {
 			$model = Mage::getSingleton('popup_static/block');
 
 			/**
 			 * validate from date vs to date
 			 */
+			$model_check = Mage::getModel('popup_static/block');
 
-			$model_val = Mage::getModel('catalogrule/rule');
-			$data = $this->_filterDates($postData, array('from_date', 'to_date'));
+			$a = $model_check->_checkDateTime($postData);
+			$errorMessage = $model_check->checkConditionDateTime($postData);
 
-			$validateResult = $model_val->validateData(new Varien_Object($data));
-
-			if ($validateResult !== true) {
-				foreach ($validateResult as $errorMessage) {
-					$this->_getSession()->addError($errorMessage);
-				}
-
+			if ($errorMessage !== true) {
+				$this->_getSession()->addError($errorMessage);
 				$this->_getSession()->setBlockData($postData);
 				$this->_redirect('*/*/edit');
 				return;
 			}
+//            echo '<pre>';
+//            var_dump($errorMessage);
+//            die;
 			$model->setData($postData);
 
 			try {
